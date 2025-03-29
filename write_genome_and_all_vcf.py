@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 # Import packages
-import sys
+import argparse
 import gzip
-from Pipe import Pipe
+import os
 import math
 import numpy as np
 
@@ -32,6 +32,7 @@ fasta_filename = "chr" + chrom_in + ".fasta"
 temp_filename = "chr" + chrom_in + ".temp"
 fragment_length = args.frag_len
 vcf_name = args.vcf_name
+max_vars = 150
 
 # %% Define the chromosome lengths
 
@@ -98,7 +99,7 @@ def process_indel(indel_list, vcf_file, het_vcf, fasta_file, add_distance):
         chrom = indel_row[0]
         start_pos = str(int(indel_row[1])-add_distance)
         end_pos = str(int(indel_row[1])+add_distance + 1)
-        ref = Pipe.run(args.twoBitToFa + " -seq="+chrom+" -start="+start_pos+" -end="+end_pos+" " + args.twobit + " "+temp_filename)
+        ref = os.system(args.twoBitToFa + " -seq="+chrom+" -start="+start_pos+" -end="+end_pos+" " + args.twobit + " "+temp_filename)
 
         # Load the new file
         temp_file = open(temp_filename)
@@ -133,7 +134,7 @@ def process_indel(indel_list, vcf_file, het_vcf, fasta_file, add_distance):
 def process_new_sequence(fasta_file, variants, chrom, start_pos, end_pos, temp_filename):
 
     # Find the hg38 reference sequence
-    ref = Pipe.run(args.twoBitToFa + " -seq=chr"+chrom+" -start="+start_pos+" -end="+end_pos+" " + args.twobit + " "+temp_filename)
+    ref = os.system(args.twoBitToFa + " -seq=chr"+chrom+" -start="+start_pos+" -end="+end_pos+" " + args.twobit + " "+temp_filename)
 
     # Load the new file to get the sequence
     temp_file = open(temp_filename)

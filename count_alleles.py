@@ -10,7 +10,6 @@ Created on Tue Apr 17 14:37:20 2024
 
 import pysam
 import argparse
-import file_headers
 import gzip
 
 # %% Define inputs
