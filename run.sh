@@ -32,6 +32,7 @@ bowtie2 -N --no-mixed --no-discordant --dovetail -X 2000 -t -p 32 -x Genome/ref_
 python convert_to_hg38.py -i ./${SAMPID}.sam -o ${SAMPID}.processed.sam
 samtools view -bS ${SAMPID}.processed.sam > ${SAMPID}.processed.bam
 samtools sort -O bam -T ${SAMPID}.temp ${SAMPID}.processed.bam > ${SAMPID}.processed.sorted.bam
+samtools index ${SAMPID}.processed.sorted.bam
 
 # Count alleles
 python count_alleles.py -s ${SAMPID}.processed.sorted.bam -o ${SAMPID}.vcf -v VCF/all.vcf.gz
